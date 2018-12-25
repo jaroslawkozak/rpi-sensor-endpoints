@@ -6,7 +6,7 @@ import json
 
 app = Flask('sensors-api')
 
-@app.route("/sensors/get", methods=['GET'])
+@app.route("/metrics", methods=['GET'])
 def get_sensors_data():
 
 
