@@ -1,4 +1,4 @@
-FROM hypriot/rpi-python
+FROM arm32v7/python
 WORKDIR /usr/src/app
 
 COPY . .
