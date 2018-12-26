@@ -12,7 +12,7 @@ def write_sensor_to_file():
     dht11.read()
     with open('sensor-data.txt', 'a+') as f:
         f.write('timestamp: ' + str(int(round(time.time(), 0)))
-                + 'temperature: '
+                + ' temperature: '
                 + str(dht11.temperature)
                 + ', humidity: '
                 + str(dht11.humidity) + '\n')
