@@ -19,7 +19,7 @@ def write_sensor_to_file():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(write_sensor_to_file, 'interval', seconds=5)
+sched.add_job(write_sensor_to_file, 'interval', minutes=1)
 sched.start()
 
 @app.route("/metrics", methods=['GET'])
