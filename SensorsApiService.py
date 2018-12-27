@@ -2,24 +2,21 @@ from flask import Response
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 from Sensors import DHT11
+from DataStorage import DataStorageUtil
 import json
-import time
 
 app = Flask('sensors-api')
 dht11 = DHT11(17)
 
-def write_sensor_to_file():
+
+def store_sensor_data():
     dht11.read()
-    with open('sensor-data.txt', 'a+') as f:
-        f.write('timestamp: ' + str(int(round(time.time(), 0)))
-                + ' temperature: '
-                + str(dht11.temperature)
-                + ', humidity: '
-                + str(dht11.humidity) + '\n')
+    DataStorageUtil.put("temperature", dht11.temperature)
+    DataStorageUtil.put("humidity", dht11.humidity)
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(write_sensor_to_file, 'interval', minutes=1)
+sched.add_job(store_sensor_data, 'interval', minutes=1)
 sched.start()
 
 @app.route("/metrics", methods=['GET'])

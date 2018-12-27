@@ -17,6 +17,18 @@ class DHT11:
         return self
 
     def data(self):
+        json_body = [
+            {
+                "measurement": "temperature",
+                "tags": {
+                    "sensor": "raspberry01",
+                },
+                "time": datetime.datetime.utcnow(),
+                "fields": {
+                    "value": 12
+                }
+            }
+        ]
         return {
             'timestamp': str(int(round(time.time(), 0))),
             'temperature': self.temperature,
