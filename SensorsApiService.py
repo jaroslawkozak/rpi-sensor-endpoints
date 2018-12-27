@@ -16,7 +16,7 @@ def store_sensor_data():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(store_sensor_data, 'interval', minutes=1)
+sched.add_job(store_sensor_data, 'interval', seconds=1)
 sched.start()
 
 @app.route("/metrics", methods=['GET'])
