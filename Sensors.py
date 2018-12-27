@@ -1,6 +1,5 @@
 import Adafruit_DHT
-import time
-
+import datetime
 
 class DHT11:
     def __init__(self, gpio):
@@ -17,20 +16,8 @@ class DHT11:
         return self
 
     def data(self):
-        json_body = [
-            {
-                "measurement": "temperature",
-                "tags": {
-                    "sensor": "raspberry01",
-                },
-                "time": datetime.datetime.utcnow(),
-                "fields": {
-                    "value": 12
-                }
-            }
-        ]
         return {
-            'timestamp': str(int(round(time.time(), 0))),
+            'timestamp': datetime.datetime.utcnow(),
             'temperature': self.temperature,
             'humidity': self.humidity
         }
