@@ -14,9 +14,11 @@ class DataStorageUtil:
     def __init__(self):
         return
 
+
+
     @staticmethod
     def put(measurement_type, value):
-        print("putting data: " + str(measurement_type) + " " + str(datetime.datetime.utcnow()))
+        print("putting data: " + str(measurement_type) + " " + str(value) + " " + sstr(datetime.datetime.utcnow()))
         client = InfluxDBClient(INFLUX_DB_HOST, INFLUX_DB_PORT, INFLUX_DB_USER, INFLUX_DB_PASS, INFLUX_DB_NAME)
         client.create_database(INFLUX_DB_NAME)
         client.write_points(DataStorageUtil.format(measurement_type, value))
