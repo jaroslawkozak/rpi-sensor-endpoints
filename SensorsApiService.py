@@ -14,11 +14,6 @@ def store_sensor_data():
     DataStorageUtil.put("temperature", dht11.temperature)
     DataStorageUtil.put("humidity", dht11.humidity)
 
-
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(store_sensor_data, 'interval', minutes=1)
-sched.start()
-
 @app.route("/metrics", methods=['GET'])
 def get_sensors_data():
     dht11.read()
@@ -27,6 +22,9 @@ def get_sensors_data():
 
 
 if __name__ == "__main__":
+    sched = BackgroundScheduler(daemon=True)
+    sched.add_job(store_sensor_data, 'interval', minutes=1)
+    sched.start()
     app.run(host='0.0.0.0', port=5555, debug=True, threaded=True)
 
 
