@@ -18,7 +18,7 @@ class DHT11:
 
     def data(self):
         return {
-            'timestamp': datetime.datetime.utcnow(),
+            'timestamp': str(datetime.datetime.utcnow()),
             'temperature': self.temperature,
             'humidity': self.humidity
         }
