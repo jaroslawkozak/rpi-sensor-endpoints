@@ -12,6 +12,7 @@ class DHT11:
     def read(self):
         # Use read_retry method. This will retry up to 15 times to
         # get a sensor reading (waiting 2 seconds between each retry).
+        print "reading data: " + datetime.datetime.utcnow()
         self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.gpio)
         return self
 
