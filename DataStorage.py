@@ -1,12 +1,10 @@
 from influxdb import InfluxDBClient
+import config
 import datetime
+import logging
 
-INFLUX_DB_HOST = "192.168.0.200"
-INFLUX_DB_PORT = 8086
-INFLUX_DB_USER = "root"
-INFLUX_DB_PASS = "root"
-INFLUX_DB_NAME = "sensor-data"
-SENSOR_NAME = "raspberry01"
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class DataStorageUtil:
@@ -16,9 +14,13 @@ class DataStorageUtil:
 
     @staticmethod
     def put(measurement_type, value):
-        print("putting data: " + str(measurement_type) + " " + str(value) + " " + str(datetime.datetime.utcnow()))
-        client = InfluxDBClient(INFLUX_DB_HOST, INFLUX_DB_PORT, INFLUX_DB_USER, INFLUX_DB_PASS, INFLUX_DB_NAME)
-        client.create_database(INFLUX_DB_NAME)
+        logging.debug("Sending data for storage. %s: %s", measurement_type, value)
+        client = InfluxDBClient(config.INFLUX_DB_CONFIG['host'],
+                                config.INFLUX_DB_CONFIG['port'],
+                                config.INFLUX_DB_CONFIG['username'],
+                                config.INFLUX_DB_CONFIG['password'],
+                                config.INFLUX_DB_CONFIG['db_name'])
+        client.create_database(config.INFLUX_DB_CONFIG['db_name'])
         client.write_points(DataStorageUtil.format(measurement_type, value))
 
     @staticmethod
@@ -27,7 +29,7 @@ class DataStorageUtil:
             {
                 "measurement": measurement_type,
                 "tags": {
-                    "sensor": SENSOR_NAME,
+                    "sensor": config.SENSOR_CONFIG['name'],
                 },
                 "time": datetime.datetime.utcnow(),
                 "fields": {
