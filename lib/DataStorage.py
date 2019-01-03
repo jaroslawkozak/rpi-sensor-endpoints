@@ -23,9 +23,7 @@ class MetricStorage:
 
     @staticmethod
     def put(measurement_type, value):
-        msg = "Sending data for storage. %s: %s", measurement_type, value
-        logging.info(msg)
-        LogStorage.log('info', msg)
+        logging.info("Sending data for storage. %s: %s", measurement_type, value)
         MetricStorage.client.write_points(MetricStorage.format(measurement_type, value))
 
     @staticmethod

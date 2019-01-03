@@ -1,7 +1,6 @@
 import Adafruit_DHT
 import datetime
 import logging
-from lib.DataStorage import LogStorage
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -51,9 +50,7 @@ class DHT11:
 
     @staticmethod
     def __log_buffer(name, prev, curr):
-        msg = ("Buffering %s due to too high difference. old (%s)  new (%s)", name, str(prev), str(curr))
-        logger.info(msg)
-        LogStorage.log('info', msg)
+        logger.info("Buffering %s due to too high difference. old (%s)  new (%s)", name, str(prev), str(curr))
 
     def data(self):
         return {
