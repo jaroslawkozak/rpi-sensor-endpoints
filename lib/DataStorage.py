@@ -63,15 +63,14 @@ class LogStorage:
     def format(severity, msg):
         return [
             {
-                "measurement": "log",
+                "measurement": "syslog",
                 "tags": {
                     "appname": config.APP_CONFIG['app_name'],
                     "facility": "console",
-                    "host": str(socket.gethostname()),
-                    "hostname": str(socket.gethostname()),
+                    "host": socket.gethostname(),
+                    "hostname": socket.gethostname(),
                     "severity": severity
                 },
-                "time": datetime.datetime.utcnow(),
                 "fields": {
                     "facility_code": 1,
                     "message": msg,
