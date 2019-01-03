@@ -6,7 +6,7 @@ import logging
 import os
 import socket
 
-logging.basicConfig(level=logging.DEBUG, filename="/var/log/sensorservice.log")
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
