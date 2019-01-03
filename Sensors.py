@@ -2,7 +2,7 @@ import Adafruit_DHT
 import datetime
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG, filename="/var/log/sensorservice.log")
 logger = logging.getLogger(__name__)
 
 
