@@ -5,6 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class DHT11:
 
     def __init__(self, gpio):
@@ -29,29 +30,23 @@ class DHT11:
     def check_buffer(self):
         if self.last_temperature is None:
             self.last_temperature = self.temperature
-        elif self.temperature > (self.last_temperature * (1 + self.buffer)):
-            DHT11.__log_buffer("temperature", self.last_temperature, self.temperature)
-            tmp = self.last_temperature
-            self.last_temperature = self.temperature
-            self.temperature = tmp
-        elif self.temperature < (self.last_temperature * (1 - self.buffer)):
-            DHT11.__log_buffer("temperature", self.last_temperature, self.temperature)
-            tmp = self.last_temperature
-            self.last_temperature = self.temperature
-            self.temperature = tmp
+        elif self.__get_measure_diff(self.last_temperature, self.temperature) > self.buffer:
+                DHT11.__log_buffer("temperature", self.last_temperature, self.temperature)
+                tmp = self.last_temperature
+                self.last_temperature = self.temperature
+                self.temperature = tmp
 
         if self.last_humidity is None:
             self.last_humidity = self.humidity
-        elif self.humidity > (self.last_humidity * (1 + self.buffer)):
-            DHT11.__log_buffer("humidity", self.last_humidity, self.humidity)
-            tmp = self.last_humidity
-            self.last_humidity = self.humidity
-            self.humidity = tmp
-        elif self.humidity < (self.last_humidity * (1 - self.buffer)):
-            DHT11.__log_buffer("humidity", self.last_humidity, self.humidity)
-            tmp = self.last_humidity
-            self.last_humidity = self.humidity
-            self.humidity = tmp
+        elif self.__get_measure_diff(self.last_humidity, self.humidity) > self.buffer:
+                DHT11.__log_buffer("humidity", self.last_humidity, self.humidity)
+                tmp = self.last_humidity
+                self.last_humidity = self.humidity
+                self.humidity = tmp
+
+    @staticmethod
+    def __get_measure_diff(prev, curr):
+        return abs((float(curr)/float(prev))-1)
 
     @staticmethod
     def __log_buffer(name, prev, curr):
